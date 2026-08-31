@@ -281,15 +281,9 @@ vim.keymap.set("t", "<C-q>", "<C-\\><C-n>i exit<CR>", { noremap = true, silent =
 -- Alt‑Arrow navigation
 vim.keymap.set("n", "<A-Left>",  "^", { noremap = true, silent = true })   -- move to start of line
 vim.keymap.set("n", "<A-Right>", "$", { noremap = true, silent = true })   -- move to end of line
-vim.keymap.set("n", "<A-Up>",    "gg", { noremap = true, silent = true })  -- move to top of file
-vim.keymap.set("n", "<A-Down>",  "G",  { noremap = true, silent = true })  -- move to bottom of file
 
 vim.keymap.set("i", "<A-Left>",  "<C-o>^", { noremap = true, silent = true })
 vim.keymap.set("i", "<A-Right>", "<C-o>$", { noremap = true, silent = true })
-vim.keymap.set("i", "<A-Up>",    "<C-o>gg", { noremap = true, silent = true })
-vim.keymap.set("i", "<A-Down>",  "<C-o>G",  { noremap = true, silent = true })
 
 vim.keymap.set("v", "<A-Left>",  "^", { noremap = true, silent = true })
 vim.keymap.set("v", "<A-Right>", "$", { noremap = true, silent = true })
-vim.keymap.set("v", "<A-Up>",    "gg", { noremap = true, silent = true })
-vim.keymap.set("v", "<A-Down>",  "G",  { noremap = true, silent = true })
