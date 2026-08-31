@@ -14,48 +14,58 @@ return {
       local dap = require("dap")
       local dapui = require("dapui")
 
-      local dap_python = require("dap-python")
-      local dap_go = require("dap-go")
-      local dap_vscode_js = require("dap-vscode-js")
-
       require("dap-python").setup("python")
       require("dap-go").setup()
       require("dap-vscode-js").setup({
-        adapters = { "pwa-node", "pwa-chrome", "node-terminal", "pwa-extensionHost" },
+        adapters = {
+          "pwa-node",
+          "pwa-chrome",
+          "node-terminal",
+          "pwa-extensionHost",
+        },
       })
       require("jdtls").setup_dap()
+
+      dap.adapters.codelldb = {
+        type = "executable",
+        command = "codelldb",
+      }
+
+      dap.configurations.c = {
+        {
+          name = "Launch C",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+      }
+
+      dap.configurations.cpp = dap.configurations.c
 
       dapui.setup({
         layouts = {
           {
             elements = {
-              { id = "scopes",      size = 0.25 },
+              { id = "scopes", size = 0.25 },
               { id = "breakpoints", size = 0.25 },
-              { id = "stacks",      size = 0.25 },
-              { id = "watches",     size = 0.25 },
+              { id = "stacks", size = 0.25 },
+              { id = "watches", size = 0.25 },
             },
             size = 27,
             position = "left",
           },
           {
             elements = {
-              { id = "repl",    size = 0.5 },
+              { id = "repl", size = 0.5 },
               { id = "console", size = 0.5 },
             },
             size = 7,
             position = "bottom",
           },
-        },
-      })
-      dap_python.setup()
-      dap_go.setup()
-
-      dap_vscode_js.setup({
-        adapters = {
-          "pwa-node",
-          "pwa-chrome",
-          "node-terminal",
-          "pwa-extensionHost",
         },
       })
 
@@ -75,9 +85,7 @@ return {
         dapui.close()
       end
 
-      vim.keymap.set("n", "<F8>", function()
-        require("dapui").toggle()
-      end)
+      vim.keymap.set("n", "<F8>", dapui.toggle)
       vim.keymap.set("n", "<C-b>", dap.toggle_breakpoint)
       vim.keymap.set("n", "<F5>", dap.continue)
       vim.keymap.set("n", "<F10>", dap.step_over)

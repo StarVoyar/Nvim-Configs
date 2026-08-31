@@ -1,20 +1,27 @@
-local state_file = vim.fn.stdpath("data") .. "/neo_tree_width.txt"
-local width = tonumber(vim.fn.readfile(state_file)[1]) or 28
+local neo_tree_width = 28
 
 require("neo-tree").setup({
-  window = { width = width },
+  window = {
+    width = function()
+      return neo_tree_width
+    end,
+  },
 })
 
-vim.api.nvim_create_autocmd("WinClosed", {
-  pattern = "*",
+vim.api.nvim_create_autocmd("WinResized", {
   callback = function()
-    local win = tonumber(vim.fn.expand("<amatch>"))
-    if vim.api.nvim_win_is_valid(win) then
-      local buf = vim.api.nvim_win_get_buf(win)
-      if vim.bo[buf].filetype == "neo-tree" then
-        local w = vim.api.nvim_win_get_width(win)
-        vim.fn.writefile({ tostring(w) }, state_file)
+    for _, win in ipairs(vim.v.event.windows) do
+      if not vim.api.nvim_win_is_valid(win) then
+        goto continue
       end
+
+      local buf = vim.api.nvim_win_get_buf(win)
+
+      if vim.bo[buf].filetype == "neo-tree" then
+        neo_tree_width = vim.api.nvim_win_get_width(win)
+      end
+
+      ::continue::
     end
   end,
 })

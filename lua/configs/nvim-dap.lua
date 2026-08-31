@@ -8,6 +8,7 @@ require("mason-nvim-dap").setup({
     "go",
     "javadbg",
     "java-test",
+    "codelldb",
   },
   automatic_installation = true,
 })
