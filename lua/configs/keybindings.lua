@@ -240,30 +240,48 @@ vim.keymap.set("n", "<C-Down>", function()
 end)
 
 vim.keymap.set("i", "<C-Up>", function()
+  -- exit insert mode safely
+  vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
+    "n",
+    false
+  )
+
+  -- run the same logic as normal mode
   local current = vim.fn.getline(".")
   local above_line = vim.fn.line(".") - 1
 
-  if above_line < 1 then
-    return
+  if above_line >= 1 then
+    local above = vim.fn.getline(above_line)
+    if above == current then
+      vim.cmd("normal! kdd")
+    end
   end
 
-  local above = vim.fn.getline(above_line)
-
-  if above == current then
-    vim.cmd("normal! <Esc>")
-    vim.cmd("normal! kdd")
+  -- return to insert mode AFTER the movement finishes
+  vim.schedule(function()
     vim.cmd("startinsert")
-  end
+  end)
 end)
 
 vim.keymap.set("i", "<C-Down>", function()
-  local current = vim.fn.getline(".")
+  -- exit insert mode safely
+  vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
+    "n",
+    false
+  )
 
+  -- run the same logic as normal mode
+  local current = vim.fn.getline(".")
   if current ~= "" then
-    vim.cmd("normal! <Esc>")
     vim.cmd("normal! yyp")
-    vim.cmd("startinsert")
   end
+
+  -- return to insert mode AFTER the movement finishes
+  vim.schedule(function()
+    vim.cmd("startinsert")
+  end)
 end)
 
 -- Terminal tab navigation (terminal mode only)
