@@ -17,5 +17,6 @@ return {
   { import = "plugins.grug-far" },
   { import = "plugins.lualine" },
   { import = "plugins.alpha-nvim" },
+  { import = "plugins.comment-nvim" },
   { import = "plugins.nvim-treesitter" },
 }

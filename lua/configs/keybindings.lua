@@ -287,3 +287,21 @@ vim.keymap.set("i", "<A-Right>", "<C-o>$", { noremap = true, silent = true })
 
 vim.keymap.set("v", "<A-Left>",  "^", { noremap = true, silent = true })
 vim.keymap.set("v", "<A-Right>", "$", { noremap = true, silent = true })
+
+local comment = require("Comment.api")
+
+vim.keymap.set("n", "<C-_>", function()
+  comment.toggle.linewise.current()
+end, { noremap = true, silent = true })
+
+vim.keymap.set("v", "<C-_>", function()
+  local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+  vim.api.nvim_feedkeys(esc, "nx", false)
+  comment.toggle.linewise(vim.fn.visualmode())
+end, { noremap = true, silent = true })
+
+vim.keymap.set("i", "<C-_>", function()
+  vim.cmd("stopinsert")
+  comment.toggle.linewise.current()
+  vim.cmd("startinsert")
+end, { noremap = true, silent = true })
