@@ -31,6 +31,27 @@ vim.lsp.config("lua_ls", {
   },
 })
 
+vim.lsp.config("rust_analyzer", {
+  settings = {
+    ["rust-analyzer"] = {
+      checkOnSave = true,
+      check = {
+        command = "clippy",
+      },
+    },
+  },
+})
+
+vim.lsp.enable("lua_ls")
+vim.lsp.enable("pyright")
+vim.lsp.enable("clangd")
+vim.lsp.enable("rust_analyzer")
+vim.lsp.enable("ts_ls")
+vim.lsp.enable("jdtls")
+vim.lsp.enable("html")
+vim.lsp.enable("cssls")
+vim.lsp.enable("gopls")
+
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function()
     vim.lsp.buf.format({ async = false })

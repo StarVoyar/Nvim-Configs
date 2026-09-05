@@ -44,6 +44,20 @@ return {
         },
       }
 
+      dap.configurations.rust = {
+        {
+          name = "Launch Rust",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+      }
+
+
       dap.configurations.cpp = dap.configurations.c
 
       dapui.setup({
