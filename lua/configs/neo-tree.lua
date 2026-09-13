@@ -1,6 +1,8 @@
 local neo_tree_width = 28
 
 require("neo-tree").setup({
+  enable_git_status = false,
+
   window = {
     width = function()
       return neo_tree_width

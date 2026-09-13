@@ -13,6 +13,8 @@ return {
       local width = 28
 
       require("neo-tree").setup({
+        enable_git_status = false,
+
         window = {
           width = width,
         },
