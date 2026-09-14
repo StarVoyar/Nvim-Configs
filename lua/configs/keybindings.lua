@@ -306,6 +306,17 @@ vim.keymap.set("i", "<A-Right>", "<C-o>$", { noremap = true, silent = true })
 vim.keymap.set("v", "<A-Left>",  "^", { noremap = true, silent = true })
 vim.keymap.set("v", "<A-Right>", "$", { noremap = true, silent = true })
 
+-- Ctrl-Arrow word navigation
+
+vim.keymap.set("n", "<C-Left>", "b", { noremap = true, silent = true }) -- Move to start of previous word
+vim.keymap.set("n", "<C-Right>", "e", { noremap = true, silent = true }) -- Move to end of current word
+
+vim.keymap.set("i", "<C-Left>", "<C-o>b", { noremap = true, silent = true }) -- Move to start of previous word
+vim.keymap.set("i", "<C-Right>", "<C-o>e", { noremap = true, silent = true }) -- Move to end of current word
+
+vim.keymap.set("v", "<C-Left>", "b", { noremap = true, silent = true }) -- Move to start of previous word
+vim.keymap.set("v", "<C-Right>", "e", { noremap = true, silent = true }) -- Move to end of current word
+
 local comment = require("Comment.api")
 
 vim.keymap.set("n", "<C-_>", function()
