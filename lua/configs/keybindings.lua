@@ -1,11 +1,4 @@
--- Grug-far keybinding
-vim.keymap.set("n", "<C-r>", function()
-  require("grug-far").open({
-    prefills = {
-      search = vim.fn.expand("<cword>"),
-    },
-  })
-end, { noremap = true, silent = true })
+-- sr.nvim keybinding is configured in the plugin file
 
 -- Terminal keybinding
 vim.keymap.set({ "n", "t" }, "<C-t>", function()
@@ -94,9 +87,42 @@ vim.keymap.set("n", "<C-s>", "<Cmd>write<CR>")
 vim.keymap.set("i", "<C-s>", "<C-o><Cmd>write<CR>")
 vim.keymap.set("v", "<C-s>", "<Cmd>write<CR>")
 
--- Window resize
-vim.keymap.set("n", "<C-S-Left>", ":vertical resize -5<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-S-Right>", ":vertical resize +5<CR>", { noremap = true, silent = true })
+-- Window resize (smart - expands in direction of arrow)
+local function smart_resize(direction)
+  local win_info = vim.fn.getwininfo(vim.fn.win_getid())[1]
+  local win_col = win_info.wincol
+  local win_width = win_info.width
+  local screen_width = vim.o.columns
+
+  -- Determine if window is on the right side
+  local is_right_window = (win_col + win_width / 2) > screen_width / 2
+
+  if direction == "left" then
+    if is_right_window then
+      -- Right window: pressing left expands to the right
+      vim.cmd("vertical resize +5")
+    else
+      -- Left window: pressing left shrinks toward left
+      vim.cmd("vertical resize -5")
+    end
+  elseif direction == "right" then
+    if is_right_window then
+      -- Right window: pressing right shrinks toward left
+      vim.cmd("vertical resize -5")
+    else
+      -- Left window: pressing right expands to the right
+      vim.cmd("vertical resize +5")
+    end
+  end
+end
+
+vim.keymap.set("n", "<C-S-Left>", function()
+  smart_resize("left")
+end, { noremap = true, silent = true })
+
+vim.keymap.set("n", "<C-S-Right>", function()
+  smart_resize("right")
+end, { noremap = true, silent = true })
 
 -- Quit
 vim.keymap.set("n", "<A-s>", function()

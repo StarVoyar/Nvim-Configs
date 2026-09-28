@@ -11,10 +11,11 @@ configs/nvim/
 │   ├── plugins.lua          # Plugin imports (lazy.nvim)
 │   ├── plugins/             # Individual plugin specifications
 │   │   ├── alpha-nvim.lua
-│   │   ├── grug-far.lua
+│   │   ├── comment-nvim.lua
 │   │   ├── lualine.lua
 │   │   ├── mason-lspconfig.lua
 │   │   ├── mason.lua
+│   │   ├── mdeye.lua
 │   │   ├── neo-tree.lua
 │   │   ├── neoscroll.lua
 │   │   ├── nvim-autopairs.lua
@@ -57,7 +58,7 @@ configs/nvim/
 - **Debugging**: nvim-dap with UI, Python, Go, JavaScript adapters
 - **File Explorer**: neo-tree.nvim
 - **Fuzzy Finder**: telescope.nvim with live-grep-args extension
-- **Search & Replace**: grug-far.nvim
+- **Search & Replace**: sr.nvim (Telescope-powered find and replace)
 - **Status Line**: lualine.nvim with TokyoNight theme
 - **Startup Dashboard**: alpha-nvim with custom falling stars animation
 - **Syntax Highlighting**: nvim-treesitter
@@ -66,6 +67,8 @@ configs/nvim/
 - **Auto Pairs**: nvim-autopairs
 - **Multi-cursor**: vim-visual-multi
 - **Code Actions**: tiny-code-action.nvim
+- **Comments**: comment-nvim
+- **Markdown Preview**: mdeye.nvim (split view with synced scrolling)
 
 ## Keybindings
 
@@ -74,7 +77,8 @@ configs/nvim/
 | `<Control + f>` | Live grep (telescope)           |
 | `<Alt + f>`     | Find files (telescope)          |
 | `<Control + e>` | Toggle file explorer            |
-| `<Control + r>` | Search and replace (grug-far)   |
+| `<Control + r>` | Search and replace (sr.nvim)   |
+| `<Alt + r>`     | Toggle markdown preview         |
 | `<Control + t>` | Toggle terminal                 |
 | `<Control + s>` | Save                            |
 | `<Control + q>` | Quit with confirmation          |

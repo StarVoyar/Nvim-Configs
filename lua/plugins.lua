@@ -19,4 +19,5 @@ return {
   { import = "plugins.alpha-nvim" },
   { import = "plugins.comment-nvim" },
   { import = "plugins.nvim-treesitter" },
+  { import = "plugins.mdeye" },
 }
