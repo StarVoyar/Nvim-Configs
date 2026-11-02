@@ -53,3 +53,44 @@ vim.api.nvim_create_autocmd("CursorMoved", {
     end))
   end,
 })
+
+-- Ensure files end with a newline, excluding binary files
+vim.opt.fixeol = true
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    local binary_extensions = {
+      "exe", "dll", "o", "a", "so", "dylib", "lib", "bin", "obj",
+      "png", "jpg", "jpeg", "gif", "bmp", "ico", "webp",
+      "mp3", "mp4", "wav", "ogg", "flac", "avi", "mkv", "mov",
+      "zip", "tar", "gz", "rar", "7z", "pdf", "doc", "docx", "xls", "xlsx"
+    }
+
+    local filename = vim.fn.expand("%:t")
+    local ext = filename:match("%.([^%.]+)$")
+
+    if ext then
+      ext = ext:lower()
+      for _, bin_ext in ipairs(binary_extensions) do
+        if ext == bin_ext then
+          return
+        end
+      end
+    end
+
+    -- Check if file is already marked as binary
+    if vim.opt.binary:get() then
+      return
+    end
+
+    -- Add newline at end of file if missing
+    local line_count = vim.api.nvim_buf_line_count(0)
+    if line_count > 0 then
+      local last_line = vim.api.nvim_buf_get_lines(0, line_count - 1, line_count, false)[1]
+      if last_line ~= "" then
+        vim.api.nvim_buf_set_lines(0, line_count, line_count, false, {""})
+      end
+    end
+  end,
+})
