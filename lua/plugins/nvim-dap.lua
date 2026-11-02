@@ -14,7 +14,20 @@ return {
       local dap = require("dap")
       local dapui = require("dapui")
 
-      require("dap-python").setup("python")
+      -- Detect Python command dynamically
+      local function get_python_command()
+        -- Try common Python commands in order of preference
+        local python_commands = { "python3", "python", "py" }
+        for _, cmd in ipairs(python_commands) do
+          if vim.fn.executable(cmd) == 1 then
+            return cmd
+          end
+        end
+        -- Fallback to python if none found (will show error later if not available)
+        return "python"
+      end
+
+      require("dap-python").setup(get_python_command())
       require("dap-go").setup()
       require("dap-vscode-js").setup({
         adapters = {
